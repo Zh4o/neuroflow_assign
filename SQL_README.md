@@ -3,7 +3,7 @@
 I used Postgresql to complete this assignment.
 
 
-To approach the query, I first drew out small examples on what the query what return. Then, to compare the created_at and exercise_completion_date, I knew a join was needed, so I chose to do a natural join, which removes rows where the user_id does not match, which means that user did not complete any exercise. 
+To approach the query, I first drew out small examples on what the query would return. Then, to compare the created_at and exercise_completion_date, I knew a join was needed, so I chose to do a natural join, which removes rows where the user_id does not match, which means that user did not complete any exercise. 
 
 Then I use the WHERE clause to check whether the exercise completion timestamp is at most 30 days from the created_at timestamp. Next, I grouped by the month and year after extracting them from the timestamp (https://stackoverflow.com/questions/17492167/group-query-results-by-month-and-year-in-postgresql). I realized that due to the where clause, the whole query may return a empty set, so I did a UNION ALL operation where if the WHERE clause returns an empty set, I make sure columns still existed and had 0, Mon, Date as the return value since the user could have completed an exercise more than 30 days after the their account has been created.
 
@@ -26,6 +26,8 @@ CREATE TABLE users (
   created_at TIMESTAMP,
   PRIMARY KEY(user_id)
 );
+
+
 INSERT INTO users (user_id, created_at) VALUES (1, '2018-01-14 16:42:26');
 INSERT INTO users (user_id, created_at) VALUES (2, '2018-01-15 16:42:26');
 INSERT INTO users (user_id, created_at) VALUES (3, '2018-01-16 16:42:26');
